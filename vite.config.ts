@@ -5,6 +5,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   appType: 'spa',
+  base: process.env.GITHUB_PAGES === 'true' ? '/asa-indonesia/' : '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

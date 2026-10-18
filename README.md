@@ -28,11 +28,11 @@ pnpm preview
 
 Hasil build berada di `dist/`.
 
-## Rute dan hosting
+## Rute dan GitHub Pages
 
-Rute aplikasi didefinisikan di `src/routes.tsx`. Vite menjalankan aplikasi dalam mode SPA, sehingga rute React Router berfungsi di server pengembangan dan preview. Untuk hosting statis, konfigurasi host perlu mengarahkan permintaan rute aplikasi yang tidak cocok dengan berkas fisik kembali ke `/index.html`. Aturan spesifik dapat ditambahkan setelah platform hosting dipilih.
+Rute aplikasi didefinisikan di `src/routes.tsx` menggunakan React Router. Untuk GitHub Pages, workflow `.github/workflows/deploy-pages.yml` membangun situs ke `dist/`, memakai awalan `/asa-indonesia/`, lalu mengunggah hasilnya. Workflow juga menyalin `index.html` sebagai `404.html` agar rute aplikasi dapat dibuka langsung atau dimuat ulang.
 
-Konfigurasi build saat ini memakai root domain (`base: '/'`). Jika situs nantinya dipasang di subpath, sesuaikan `base` di `vite.config.ts` dengan alamat pemasangannya.
+Di GitHub, buka **Settings → Pages → Build and deployment**, lalu pilih **GitHub Actions** sebagai sumber publikasi. Untuk pengembangan lokal, `pnpm dev` tetap menggunakan root (`/`).
 
 ## Batas implementasi saat ini
 

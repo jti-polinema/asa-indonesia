@@ -30,4 +30,6 @@ export const router = createBrowserRouter([
       { path: '*', Component: Home },
     ],
   },
-])
+], {
+  basename: import.meta.env.BASE_URL,
+})
