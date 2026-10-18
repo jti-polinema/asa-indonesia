@@ -93,8 +93,8 @@ export default function About() {
             </p>
             <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
               {fields.map(([n, img]) => (
-                <Link key={n} to={`/solusi/${n.split(' ')[1].toLowerCase()}`} className="group relative isolate flex aspect-[3/4] items-end overflow-hidden rounded-3xl p-4">
-                  <img src={img} alt="" className="absolute inset-0 -z-20 size-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <Link viewTransition key={n} to={`/solusi/${n.split(' ')[1].toLowerCase()}`} className="group relative isolate flex aspect-[3/4] items-end overflow-hidden rounded-3xl p-4">
+                  <img src={img} alt="" style={{ viewTransitionName: `solution-image-${n.split(' ')[1].toLowerCase()}` }} className="absolute inset-0 -z-20 size-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 -z-10 bg-gradient-to-t from-forest/90 to-transparent" />
                   <span className="font-display text-xl">{n}</span>
                 </Link>
@@ -152,8 +152,8 @@ export default function About() {
               Belum semua solusi tersedia sebagai layanan produksi di lapangan.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/kontak" className="rounded-full bg-forest px-6 py-3 text-sm font-semibold text-white hover:bg-forest-3">Hubungi Kami</Link>
-              <Link to="/minta-demo" className="rounded-full border border-forest/30 px-6 py-3 text-sm font-semibold hover:bg-forest/10">Minta Demo</Link>
+              <Link viewTransition to="/kontak" className="rounded-full bg-forest px-6 py-3 text-sm font-semibold text-white hover:bg-forest-3">Hubungi Kami</Link>
+              <Link viewTransition to="/minta-demo" className="rounded-full border border-forest/30 px-6 py-3 text-sm font-semibold hover:bg-forest/10">Minta Demo</Link>
             </div>
           </div>
         </section>

@@ -32,6 +32,7 @@
 html {
   scroll-behavior: smooth;
   scrollbar-width: none;
+  overflow-x: clip;
 }
 html::-webkit-scrollbar {
   display: none;
@@ -58,6 +59,266 @@ section[id] {
   scroll-margin-top: 5rem;
 }
 
+[data-scroll-reveal] {
+  opacity: 0;
+  filter: blur(12px);
+  transform-style: preserve-3d;
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--scroll-reveal-delay, 0ms),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--scroll-reveal-delay, 0ms),
+    filter 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--scroll-reveal-delay, 0ms),
+    background-color 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+[data-scroll-reveal='up'] { transform: perspective(1100px) translate3d(0, 76px, 0) rotateX(9deg) scale(0.95); }
+[data-scroll-reveal='left'] { transform: perspective(1100px) translate3d(-72px, 18px, 0) rotateY(-9deg) scale(0.94); }
+[data-scroll-reveal='right'] { transform: perspective(1100px) translate3d(72px, 18px, 0) rotateY(9deg) scale(0.94); }
+[data-scroll-reveal='zoom'] { transform: perspective(1100px) translate3d(0, 42px, 0) rotateZ(-1.5deg) scale(0.82); }
+
+[data-scroll-reveal].is-revealed,
+[data-scroll-reveal]:focus-within {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+.scroll-progress {
+  box-shadow: 0 0 16px rgba(201, 242, 107, 0.85);
+}
+
+.scroll-progress::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5rem;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9));
+  content: '';
+}
+
+@keyframes route-soft-out {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -4px, 0) scale(0.998);
+  }
+}
+
+@keyframes route-soft-in {
+  0% {
+    opacity: 0.12;
+    transform: perspective(1400px) translate3d(0, 7px, -14px) scale(0.996);
+  }
+  65% {
+    opacity: 1;
+    transform: perspective(1400px) translate3d(0, 0, 2px) scale(1.001);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1400px) translate3d(0, 0, 0) scale(1);
+  }
+}
+
+::view-transition-group(root) {
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+  transform-style: preserve-3d;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  transform-origin: center center;
+  backface-visibility: hidden;
+}
+
+::view-transition-old(root) {
+  animation: route-soft-out 160ms ease-in both;
+}
+
+::view-transition-new(root) {
+  animation: route-soft-in 390ms cubic-bezier(0.22, 0.72, 0.2, 1) both;
+}
+
+::view-transition-group(site-navigation) {
+  z-index: 10;
+  animation-duration: 390ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-group(solution-image-maggot),
+::view-transition-group(solution-image-chicken),
+::view-transition-group(solution-image-aquaponic),
+::view-transition-group(solution-image-hydroponic) {
+  animation-duration: 1050ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes hero-copy-in {
+  from { opacity: 0; filter: blur(12px); transform: translateY(38px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+.hero-copy > * {
+  animation: hero-copy-in 850ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-copy > *:nth-child(1) { animation-delay: 80ms; }
+.hero-copy > *:nth-child(2) { animation-delay: 210ms; }
+.hero-copy > *:nth-child(3) { animation-delay: 340ms; }
+.hero-copy > *:nth-child(4) { animation-delay: 470ms; }
+
+.hero-scroll-cue {
+  animation: cue-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes cue-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+@keyframes menu-drop-in {
+  from { opacity: 0; filter: blur(8px); transform: translateY(-10px) scale(0.97); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+}
+
+.menu-popover {
+  transform-origin: top center;
+  animation: menu-drop-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.site-nav {
+  view-transition-name: site-navigation;
+}
+
+@keyframes draw-chart {
+  to { stroke-dashoffset: 0; }
+}
+
+.chart-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.chart-reveal[data-scroll-reveal] .chart-line { stroke-dashoffset: 1; }
+
+.chart-reveal[data-scroll-reveal].is-revealed .chart-line {
+  animation: draw-chart 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.chart-reveal.is-revealed .chart-line-alert { animation-delay: 420ms; }
+
+.chart-alert-point {
+  transform-box: view-box;
+  transform-origin: 400px 82px;
+}
+
+.chart-reveal[data-scroll-reveal] .chart-alert-point { opacity: 0; }
+
+.chart-reveal[data-scroll-reveal].is-revealed .chart-alert-point {
+  animation: alert-point-in 500ms cubic-bezier(0.16, 1, 0.3, 1) 1s both;
+}
+
+@keyframes alert-point-in {
+  from { opacity: 0; transform: scale(0.2); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes hero-parallax {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(8%) scale(1.12); }
+}
+
+.hero-dashboard-plane {
+  perspective: 1600px;
+}
+
+.hero-dashboard-scene {
+  perspective: 1300px;
+  perspective-origin: 52% 46%;
+}
+
+.hero-dashboard-layer {
+  transform: rotateX(var(--dashboard-rotate-x, -6deg)) rotateY(var(--dashboard-rotate-y, -8deg));
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.hero-dashboard-backplate {
+  transform: translateZ(-45px) rotateX(4deg) rotateY(-5deg);
+  transform-style: preserve-3d;
+}
+
+.hero-dashboard-orbit {
+  top: 1rem;
+  right: 0;
+  width: 29rem;
+  height: 19rem;
+  border: 1px solid rgba(201, 242, 107, 0.32);
+  border-radius: 50%;
+  box-shadow: 0 0 45px rgba(201, 242, 107, 0.12), inset 0 0 30px rgba(201, 242, 107, 0.08);
+  animation: orbit-rotate 32s linear infinite;
+}
+
+.hero-dashboard-orbit::after {
+  position: absolute;
+  top: 4px;
+  left: 54%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-lime);
+  box-shadow: 0 0 18px 5px rgba(201, 242, 107, 0.65);
+  content: '';
+}
+
+@keyframes orbit-rotate {
+  from { transform: translateZ(-10px) rotateX(64deg) rotateZ(-14deg); }
+  to { transform: translateZ(-10px) rotateX(64deg) rotateZ(346deg); }
+}
+
+.hero-card-float {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hero-card-surface {
+  backface-visibility: hidden;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02) 55%);
+}
+
+@keyframes dashboard-scroll-away {
+  from { opacity: 1; transform: translate3d(0, 0, 0) rotateX(0deg) scale(1); }
+  to { opacity: 0.12; transform: translate3d(0, 110px, 0) rotateX(16deg) scale(0.78); }
+}
+
+@supports (animation-timeline: scroll()) {
+  .hero-dashboard-scroll {
+    animation: dashboard-scroll-away linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 58vh;
+    transform-style: preserve-3d;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .hero-parallax {
+    animation: hero-parallax linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 70vh;
+  }
+}
+
 @keyframes drift {
   0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
   50% { transform: translateY(-10px) rotate(var(--r, 0deg)); }
@@ -74,5 +335,25 @@ section[id] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; scroll-behavior: auto !important; }
+  *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
+  [data-scroll-reveal] { opacity: 1 !important; filter: none !important; transform: none !important; }
+  .hero-dashboard-layer { transform: none !important; }
+  .chart-line { stroke-dashoffset: 0 !important; }
+  .chart-alert-point { opacity: 1 !important; transform: none !important; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
+  ::view-transition-group(site-navigation),
+  ::view-transition-old(site-navigation),
+  ::view-transition-new(site-navigation),
+  ::view-transition-group(solution-image-maggot),
+  ::view-transition-old(solution-image-maggot),
+  ::view-transition-new(solution-image-maggot),
+  ::view-transition-group(solution-image-chicken),
+  ::view-transition-old(solution-image-chicken),
+  ::view-transition-new(solution-image-chicken),
+  ::view-transition-group(solution-image-aquaponic),
+  ::view-transition-old(solution-image-aquaponic),
+  ::view-transition-new(solution-image-aquaponic),
+  ::view-transition-group(solution-image-hydroponic),
+  ::view-transition-old(solution-image-hydroponic),
+  ::view-transition-new(solution-image-hydroponic) { animation: none !important; }
 }

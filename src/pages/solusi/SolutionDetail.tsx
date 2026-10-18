@@ -23,10 +23,10 @@ export default function SolutionDetail() {
     <>
       <Nav />
       <header className="relative isolate overflow-hidden bg-forest pb-16 pt-36 text-white lg:pb-24">
-        <img src={p.image} alt="" className="absolute inset-0 -z-20 size-full object-cover" />
+        <img src={p.image} alt="" style={{ viewTransitionName: `solution-image-${p.key}` }} className="absolute inset-0 -z-20 size-full object-cover" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-forest/70 via-forest/60 to-forest" />
         <div className="mx-auto max-w-6xl px-5">
-          <Link to="/solusi" className="text-sm text-white/70 hover:text-white">← Semua solusi</Link>
+          <Link viewTransition to="/solusi" className="text-sm text-white/70 hover:text-white">← Semua solusi</Link>
           <p className="mt-8 font-mono text-xs text-lime">Solusi 0{i + 1}</p>
           <h1 className="mt-3 font-display text-[clamp(2.8rem,7vw,6rem)] font-light leading-none tracking-tight">{p.name}</h1>
           <p className="mt-5 max-w-2xl font-display text-2xl font-light italic text-white/90">{p.message}</p>
@@ -112,12 +112,12 @@ export default function SolutionDetail() {
         <section className="mx-auto max-w-6xl px-5 pb-24">
           <div className="flex flex-wrap items-center justify-between gap-4 rounded-[2rem] bg-forest p-8 text-white">
             <p className="font-display text-2xl font-light">Ingin melihat {p.name} bekerja?</p>
-            <Link to="/minta-demo" className="rounded-full bg-lime px-6 py-3 text-sm font-semibold text-forest hover:bg-lime-2">Minta Demo</Link>
+            <Link viewTransition to="/minta-demo" className="rounded-full bg-lime px-6 py-3 text-sm font-semibold text-forest hover:bg-lime-2">Minta Demo</Link>
           </div>
           <p className="mt-12 font-mono text-[11px] uppercase tracking-wider text-muted">Solusi lainnya</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {others.map((o) => (
-              <Link key={o.key} to={`/solusi/${o.key}`} className="rounded-3xl bg-white p-5 transition-colors hover:bg-mint-2">
+              <Link viewTransition key={o.key} to={`/solusi/${o.key}`} className="rounded-3xl bg-white p-5 transition-colors hover:bg-mint-2">
                 <p className="font-display text-xl text-ink">{o.name}</p>
                 <p className="mt-1 text-sm text-muted">{o.message}</p>
               </Link>

@@ -28,7 +28,7 @@ export function Problem() {
           </ul>
         </div>
 
-        <figure className="mt-16 overflow-hidden rounded-[2rem] bg-mint p-5 sm:p-8">
+        <figure className="chart-reveal mt-16 overflow-hidden rounded-[2rem] bg-mint p-5 sm:p-8">
           <div className="mb-4 flex items-center justify-between">
             <span className="font-mono text-xs uppercase tracking-wider text-forest-3">Satu hari budidaya, tanpa pemantauan sensor</span>
             <DataTag label="contoh tampilan" />
@@ -37,8 +37,8 @@ export function Problem() {
             <rect x="250" y="0" width="300" height="240" fill="#a9dc3f" opacity="0.12" />
             <line x1="0" x2="800" y1="90" y2="90" stroke="#e5654b" strokeDasharray="6 6" />
             <text x="8" y="82" fontSize="11" fill="#b8402a" fontFamily="JetBrains Mono">AMBANG BATAS</text>
-            <path d="M0 180 C80 176 150 170 250 165 C320 160 350 120 400 82 C450 50 500 40 550 62 C620 100 700 150 800 160" fill="none" stroke="#164d31" strokeWidth="3" strokeLinecap="round" />
-            <path d="M340 130 C360 112 380 96 400 82 C450 50 500 40 550 62" fill="none" stroke="#e5654b" strokeWidth="3.5" strokeLinecap="round" />
+            <path pathLength="1" className="chart-line" d="M0 180 C80 176 150 170 250 165 C320 160 350 120 400 82 C450 50 500 40 550 62 C620 100 700 150 800 160" fill="none" stroke="#164d31" strokeWidth="3" strokeLinecap="round" />
+            <path pathLength="1" className="chart-line chart-line-alert" d="M340 130 C360 112 380 96 400 82 C450 50 500 40 550 62" fill="none" stroke="#e5654b" strokeWidth="3.5" strokeLinecap="round" />
             {[250, 550].map((x, i) => (
               <g key={x}>
                 <line x1={x} x2={x} y1="0" y2="240" stroke="#0a2a1a" strokeOpacity="0.4" strokeDasharray="2 4" />
@@ -46,7 +46,7 @@ export function Problem() {
                 <text x={x + 10} y="226" fontSize="11" fill="#0a2a1a" fontFamily="JetBrains Mono">PEMERIKSAAN {i + 1}</text>
               </g>
             ))}
-            <g>
+            <g className="chart-alert-point">
               <circle cx="400" cy="82" r="9" fill="#e5654b" />
               <circle cx="400" cy="82" r="16" fill="none" stroke="#e5654b" opacity="0.5" />
               <text x="418" y="30" fontSize="13" fill="#0a2a1a" fontWeight="600">Mulai melewati batas — tidak ada yang melihat</text>

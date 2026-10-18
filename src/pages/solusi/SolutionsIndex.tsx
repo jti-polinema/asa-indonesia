@@ -19,8 +19,8 @@ export default function SolutionsIndex() {
 
         <section className="mx-auto grid max-w-6xl gap-5 px-5 pb-16 sm:grid-cols-2">
           {pages.map((p, i) => (
-            <Link key={p.key} to={`/solusi/${p.key}`} className="group relative isolate flex min-h-[26rem] flex-col justify-end overflow-hidden rounded-[2rem] p-7 text-white">
-              <img src={p.image} alt="" className="absolute inset-0 -z-20 size-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Link viewTransition key={p.key} to={`/solusi/${p.key}`} className="group relative isolate flex min-h-[26rem] flex-col justify-end overflow-hidden rounded-[2rem] p-7 text-white">
+              <img src={p.image} alt="" style={{ viewTransitionName: `solution-image-${p.key}` }} className="absolute inset-0 -z-20 size-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 -z-10 bg-gradient-to-t from-forest/90 via-forest/40 to-transparent" />
               <p className="font-mono text-xs text-lime">0{i + 1}</p>
               <h2 className="mt-2 font-display text-4xl font-light">{p.name}</h2>

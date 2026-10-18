@@ -142,8 +142,8 @@ export default function HowItWorks() {
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/minta-demo" className="rounded-full bg-forest px-6 py-3 text-sm font-semibold text-white hover:bg-forest-3">Minta Demo</Link>
-            <Link to="/solusi" className="rounded-full border border-forest/25 px-6 py-3 text-sm font-semibold text-forest hover:bg-forest/10">Lihat empat solusi</Link>
+            <Link viewTransition to="/minta-demo" className="rounded-full bg-forest px-6 py-3 text-sm font-semibold text-white hover:bg-forest-3">Minta Demo</Link>
+            <Link viewTransition to="/solusi" className="rounded-full border border-forest/25 px-6 py-3 text-sm font-semibold text-forest hover:bg-forest/10">Lihat empat solusi</Link>
           </div>
         </section>
       </main>
