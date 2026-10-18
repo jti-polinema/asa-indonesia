@@ -196,6 +196,15 @@ section[id] {
   animation: menu-drop-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.mobile-menu-panel {
+  max-height: calc(100vh - 6rem);
+  max-height: calc(100dvh - 6rem);
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 .site-nav {
   view-transition-name: site-navigation;
 }

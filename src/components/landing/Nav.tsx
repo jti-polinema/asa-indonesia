@@ -16,21 +16,30 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
   const isHome = pathname === '/'
+  const headerRef = useRef<HTMLElement>(null)
   const dd = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40)
     on()
     window.addEventListener('scroll', on, { passive: true })
-    const click = (e: MouseEvent) => {
-      if (dd.current && !dd.current.contains(e.target as Node)) setMenu(false)
+    const click = (e: PointerEvent) => {
+      if (!headerRef.current?.contains(e.target as Node)) {
+        setMenu(false)
+        setOpen(false)
+      }
     }
-    const key = (e: KeyboardEvent) => e.key === 'Escape' && setMenu(false)
-    document.addEventListener('mousedown', click)
+    const key = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMenu(false)
+        setOpen(false)
+      }
+    }
+    document.addEventListener('pointerdown', click)
     document.addEventListener('keydown', key)
     return () => {
       window.removeEventListener('scroll', on)
-      document.removeEventListener('mousedown', click)
+      document.removeEventListener('pointerdown', click)
       document.removeEventListener('keydown', key)
     }
   }, [])
@@ -40,15 +49,25 @@ export function Nav() {
     setMenu(false)
   }, [pathname])
 
+  useEffect(() => {
+    if (!open) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [open])
+
   const light = !isHome || scrolled || open
   const link = `rounded-full px-3.5 py-2 text-sm transition-colors ${
     light ? 'text-forest/75 hover:bg-forest/10 hover:text-forest' : 'text-white/80 hover:bg-white/10 hover:text-white'
   }`
 
   return (
-    <header className="site-nav fixed inset-x-0 top-0 z-50 px-4 pt-4">
+    <header ref={headerRef} className="site-nav fixed inset-x-0 top-0 z-50 box-border w-full px-3 pt-3 sm:px-4 sm:pt-4">
       <div
-        className={`mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-2.5 pl-6 transition-colors ${
+        className={`mx-auto flex w-full min-w-0 max-w-6xl items-center justify-between rounded-full px-4 py-2.5 pl-5 sm:pl-6 transition-colors ${
           light ? 'bg-white/95 shadow-lg backdrop-blur-xl' : 'bg-transparent'
         }`}
       >
@@ -90,8 +109,9 @@ export function Nav() {
             Minta Demo
           </Link>
           <button
-            className={`grid size-10 place-items-center rounded-full lg:hidden ${light ? 'text-forest' : 'text-white'}`}
-            aria-label="Buka menu"
+            className={`grid size-10 shrink-0 place-items-center rounded-full lg:hidden ${light ? 'text-forest' : 'text-white'}`}
+            aria-label={open ? 'Tutup menu' : 'Buka menu'}
+            aria-controls="mobile-navigation"
             aria-expanded={open}
             onClick={() => setOpen(!open)}
           >
@@ -103,7 +123,7 @@ export function Nav() {
       </div>
 
       {open && (
-        <div className="menu-popover mx-auto mt-2 max-w-6xl rounded-3xl bg-white/95 p-3 shadow-lg backdrop-blur-xl lg:hidden">
+        <nav id="mobile-navigation" aria-label="Navigasi mobile" className="mobile-menu-panel menu-popover mx-auto mt-2 w-full min-w-0 max-w-6xl rounded-3xl bg-white p-3 shadow-xl ring-1 ring-forest/10 lg:hidden">
           <Link viewTransition to="/" className="block rounded-2xl px-4 py-2.5 text-forest hover:bg-forest/10">Beranda</Link>
           <div className="my-2 h-px bg-forest/10" />
           <p className="px-4 pb-1 pt-2 font-mono text-[10px] uppercase tracking-wider text-muted">Solusi</p>
@@ -118,7 +138,7 @@ export function Nav() {
             <Link viewTransition key={h} to={h} className="block rounded-2xl px-4 py-2.5 text-forest hover:bg-forest/10">{l}</Link>
           ))}
           <Link viewTransition to="/minta-demo" className="mt-2 block rounded-full bg-lime px-4 py-3 text-center font-semibold text-forest">Minta Demo</Link>
-        </div>
+        </nav>
       )}
     </header>
   )
